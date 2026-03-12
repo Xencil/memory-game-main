@@ -68,7 +68,7 @@ public class Board {
         }
 
         if (counter % 2 != 0) {
-            throw new BoardStateException("failed");
+            throw new BoardStateException("Matched card count must be even, counted: " + counter);
         }
 
         return counter;
