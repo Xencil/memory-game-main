@@ -4,8 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
+@TestMethodOrder(OrderAnnotation.class)
 class GameModelTest {
 
     int numberOfPairs = 2;
@@ -18,12 +22,14 @@ class GameModelTest {
     GameModel gameModel = new GameModel(board, scoring);
 
     @Test
+    @Order(1)
     void testInitialisation() {
         assertEquals(board, gameModel.getBoard());
         assertEquals(0, gameModel.getScore());
     }
 
     @Test
+    @Order(2)
     void testWaitingForFirstCard() {
         Card card = board.getCard(0);
         gameModel.selectCard(card);
@@ -32,6 +38,7 @@ class GameModelTest {
     }
 
     @Test
+    @Order(3)
     void testSecondCardCorrect() {
         Card first = board.getCard(0);
         Card second = board.getCard(1);
@@ -57,6 +64,7 @@ class GameModelTest {
     }
 
     @Test
+    @Order(4)
     void testSecondCardIncorrect() {
         Card first = board.getCard(0);
         Card second = board.getCard(2);
@@ -82,6 +90,7 @@ class GameModelTest {
     }
 
     @Test
+    @Order(5)
     void testInvalidSelection() {
         Card first = board.getCard(0);
 
@@ -96,6 +105,7 @@ class GameModelTest {
     }
 
     @Test
+    @Order(6)
     void testAllCardsCorrect() {
         Card first = board.getCard(0);
         Card second = board.getCard(1);

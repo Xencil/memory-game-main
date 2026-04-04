@@ -5,13 +5,18 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import uk.ac.gold.memorygame.model.exceptions.BoardStateException;
 
+@TestMethodOrder(OrderAnnotation.class)
 class BoardTest {
 
     @Test
+    @Order(1)
     void testInitialisation() {
         int numberOfPairs = 2;
         Board board = new Board(numberOfPairs);
@@ -21,6 +26,7 @@ class BoardTest {
     }
 
     @Test
+    @Order(2)
     void testMatchCount() {
         int numberOfPairs = 2;
         Board board = new Board(numberOfPairs, false);
@@ -51,6 +57,7 @@ class BoardTest {
     }
 
     @Test
+    @Order(3)
     void testPairCount() {
         int numberOfPairs = 2;
         Board board = new Board(numberOfPairs, false);
@@ -81,6 +88,7 @@ class BoardTest {
     }
 
     @Test
+    @Order(4)
     void testAllCardsMatched() {
         int numberOfPairs = 4;
         Board board = new Board(numberOfPairs, false);

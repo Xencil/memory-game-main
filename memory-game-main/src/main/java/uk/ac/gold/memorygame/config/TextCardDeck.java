@@ -2,7 +2,7 @@ package uk.ac.gold.memorygame.config;
 
 import java.util.List;
 
-public class TextCardDeck implements CardDeck {
+public class TextCardDeck implements CardDeck<String>  {
 
     private final String name;
     private final List<String> items;

@@ -20,6 +20,9 @@ public class WaitingForSecondCardState extends AbstractGameState {
         // Flip the second card.
         secondCard.flipUp();
 
+        // Notify observers.
+        model.notifyCardFlipUp(secondCard);
+
         // Transition to checking match.
         model.setState(new CheckingMatchState(model, firstCard, secondCard));
     }

@@ -4,12 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import uk.ac.gold.memorygame.model.exceptions.ValueOutOfRangeException;
 
+@TestMethodOrder(OrderAnnotation.class)
 class MoveBasedScoringTest {
 
     @Test
+    @Order(1)
     void testInitialisation() {
         int pointsForCorrect = 2;
         int penaltyForIncorrect = 1;
@@ -21,6 +26,7 @@ class MoveBasedScoringTest {
     }
 
     @Test
+    @Order(2)
     void testInvalidPointsArg() {
         int pointsForCorrect = 0;
         int penaltyForIncorrect = 1;
@@ -36,6 +42,7 @@ class MoveBasedScoringTest {
     }
 
     @Test
+    @Order(3)
     void testInvalidPenaltyArg() {
         int pointsForCorrect = 1;
         int penaltyForIncorrect = -1;
@@ -51,6 +58,7 @@ class MoveBasedScoringTest {
     }
 
     @Test
+    @Order(4)
     void testIncrement() {
         int pointsForCorrect = 2;
         int penaltyForIncorrect = 1;
@@ -65,6 +73,7 @@ class MoveBasedScoringTest {
     }
 
     @Test
+    @Order(5)
     void testDecrement() {
         int pointsForCorrect = 2;
         int penaltyForIncorrect = 1;
@@ -82,6 +91,7 @@ class MoveBasedScoringTest {
     }
 
     @Test
+    @Order(6)
     void testReset() {
         int pointsForCorrect = 2;
         int penaltyForIncorrect = 1;

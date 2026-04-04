@@ -1,5 +1,7 @@
 package uk.ac.gold.memorygame.model;
 
+import java.util.List;
+
 public class CheckingMatchState extends AbstractGameState {
 
     private final Card first;
@@ -20,7 +22,7 @@ public class CheckingMatchState extends AbstractGameState {
         checkMatch();
     }
 
-    public void checkMatch() {
+    private void checkMatch() {
         LOGGER.debug("Check match between {} and {}", first, second);
 
         if (first.matches(second)) {
@@ -42,6 +44,7 @@ public class CheckingMatchState extends AbstractGameState {
         first.setMatched(true);
         second.setMatched(true);
         model.updateScore(true);
+        model.notifyMatch(List.of(first, second));
     }
 
     private void handleMismatch() {
@@ -50,5 +53,6 @@ public class CheckingMatchState extends AbstractGameState {
         first.flipDown();
         second.flipDown();
         model.updateScore(false);
+        model.notifyMismatch(List.of(first, second));
     }
 }

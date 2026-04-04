@@ -1,12 +1,21 @@
 package uk.ac.gold.memorygame;
 
+import java.util.List;
 import java.util.prefs.Preferences;
+import uk.ac.gold.memorygame.config.TextCardDeck;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
+import uk.ac.gold.memorygame.controller.GameStartController;
+import uk.ac.gold.memorygame.controller.GameOverController;
+import uk.ac.gold.memorygame.controller.GamePlayController;
+
+import uk.ac.gold.memorygame.config.CardDeck;
 
 /**
  * JavaFX App: MemoryGame
@@ -52,8 +61,27 @@ public class MemoryGameApp extends Application {
 
     public void showStartScreen() {
         LOGGER.debug("Creating start screen");
+
+        GameStartController controller = new GameStartController(this);
+        primaryStage.setScene(new Scene(controller.getView(), 640, 480));
     }
 
+    public void showGameScreen() {
+        // Creation of card deck
+    	CardDeck<?>  cardDeck =new TextCardDeck("Default Deck",List.of("A","B","C","D","E","F","G","H"));
+        // grid size
+        int numOfPairs =8;
+        // game controller creation
+        GamePlayController controller=new GamePlayController(this,cardDeck,numOfPairs);
+
+        primaryStage.setScene(new Scene(controller.getView(),640, 480));
+    }
+
+    public void showGameOverScreen(int score){
+        GameOverController controller =new GameOverController(this, score);
+
+        primaryStage.setScene(new Scene(controller.getView(),640, 480));
+    }
     public Preferences getPrefs() {
         return prefs;
     }

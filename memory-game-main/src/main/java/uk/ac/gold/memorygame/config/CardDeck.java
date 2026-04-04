@@ -2,12 +2,9 @@ package uk.ac.gold.memorygame.config;
 
 import java.util.List;
 
-public interface CardDeck {
+public interface CardDeck<E> {
     String name();
-
     int numberOfItems();
-
-    List<String> getItems();
-
-    String get(int pairId);
+    List<E> getItems();
+    E get(int pairId);
 }

@@ -18,11 +18,8 @@ import uk.ac.gold.memorygame.model.Card;
 public class BoardView {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
     private final GridPane root = new GridPane(5, 5);
-
     private final Map<Card, CardButton> cardViewButtons = new HashMap<>();
-
     public Parent getRoot() {
         return root;
     }
@@ -31,13 +28,10 @@ public class BoardView {
         return cardViewButtons.get(card);
     }
 
-    public void buildCards(List<Card> cards, CardDeck cardDeck) {
-        LOGGER.debug("Building card buttons");
-
-        int numberOfCards = cards.size();
-
-        int ncols = (int) Math.ceil(Math.sqrt(numberOfCards));
-        int nrows = (int) Math.ceil((double) numberOfCards / ncols);
+    public void buildCards(List<Card> cards, CardDeck<?>  cardDeck) {
+        int numOffCards = cards.size();
+        int ncols = (int) Math.ceil(Math.sqrt(numOffCards));
+        int nrows = (int) Math.ceil((double) numOffCards / ncols);
 
         // Create column constraints.
         for (int c = 0; c < ncols; c++) {
@@ -46,38 +40,32 @@ public class BoardView {
             root.getColumnConstraints().add(cc);
         }
 
-        // Create row constraints.
-        for (int r = 0; r < nrows; r++) {
+        for (int r = 0; r< nrows;r++) {
             RowConstraints rc = new RowConstraints();
             rc.setPercentHeight(100.0 / nrows);
             root.getRowConstraints().add(rc);
         }
 
-        for (int i = 0; i < numberOfCards; i++) {
-            // Get the Card model instance.
-            Card cardModel = cards.get(i);
-
-            CardButton cardButton = new TextCardButton(
-                    cardModel,
-                    cardDeck.get(cardModel.getPairId()));
-            cardViewButtons.put(cardModel, cardButton);
-
-            int col = i % ncols;
-            int row = i / ncols;
-
-            root.add(cardButton, col, row);
+        for (int i= 0;i<numOffCards;i++){
+            Card cModel=cards.get(i);
+            CardButton cButton =CardButtonFactory.create(cardDeck,cModel);
+            cardViewButtons.put(cModel,cButton);
+            
+            int x = i/ ncols;
+            int y = i % ncols;
+            root.add(cButton,x, y);
         }
     }
 
     public void setCardClickHandler(Consumer<Card> handler) {
-        LOGGER.debug("Passing card click handler to card buttons");
+
         for (CardButton cv : cardViewButtons.values()) {
             cv.setCardClickHandler(handler);
         }
     }
 
     public void update() {
-        LOGGER.debug("Updating card buttons");
+
         for (CardButton cv : cardViewButtons.values())
             cv.update();
     }

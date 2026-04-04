@@ -17,6 +17,9 @@ public class WaitingForFirstCardState extends AbstractGameState {
         // Flip the first card.
         card.flipUp();
 
+        // Notify observers.
+        model.notifyCardFlipUp(card);
+
         // Transition to the next state.
         model.setState(new WaitingForSecondCardState(model, card));
     }

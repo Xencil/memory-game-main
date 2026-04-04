@@ -1,13 +1,19 @@
 package uk.ac.gold.memorygame.model;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(OrderAnnotation.class)
 class CardTest {
 
     @Test
+    @Order(1)
     void testInitialisation() {
         int pairId = 1;
 
@@ -18,6 +24,7 @@ class CardTest {
     }
 
     @Test
+    @Order(2)
     void testFlipUpAndDown() {
         Card card = new Card(1);
         assertFalse(card.isFaceUp());
@@ -28,6 +35,7 @@ class CardTest {
     }
 
     @Test
+    @Order(3)
     void testMatching() {
         Card c1 = new Card(1);
         Card c2 = new Card(1);
