@@ -66,9 +66,7 @@ public class MemoryGameApp extends Application {
         primaryStage.setScene(new Scene(controller.getView(), 640, 480));
     }
 
-    public void showGameScreen() {
-        // Creation of card deck
-    	CardDeck<?>  cardDeck =new TextCardDeck("Default Deck",List.of("A","B","C","D","E","F","G","H"));
+    public void showGameScreen(CardDeck<?> cardDeck) {
         // grid size
         int numOfPairs =8;
         // game controller creation

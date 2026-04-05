@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.scene.layout.VBox;
 
 public class GameStartView {
@@ -16,24 +17,40 @@ public class GameStartView {
 
     // Root JavaFX parent node.
     private final VBox root;
-
-    private final Button startButton;
+    
+    private final Button eButton;
+    private final Button lButton;
+    private final Button nButton;
+    
+    private final Text title;
 
     public GameStartView() {
         root = new VBox();
-        root.setSpacing(10);
+        root.setSpacing(20);
         root.setAlignment(Pos.CENTER);
 
-        startButton = new Button("Start Game");
-        root.getChildren().add(startButton);
+        title = new Text("select the game mode you wish to play");
+        lButton = new Button("letters");
+        nButton = new Button("Numbers");
+        eButton =new Button("emoji");
+
+        root.getChildren().addAll(title,lButton,nButton,eButton);
     }
 
     public Parent getRoot() {
         return root;
     }
+    
+    public void setLettersHandler(EventHandler<ActionEvent>handler) {
+    	lButton.setOnAction(handler);
+    }
 
-    public void setStartClickHandler(EventHandler<ActionEvent> handler) {
-        LOGGER.debug("Setting start click handler");
-        startButton.setOnAction(handler);
+    public void setNumbersHandler(EventHandler<ActionEvent>handler) {
+    	nButton.setOnAction(handler);
+    }
+
+    public void setEmojiHandler(EventHandler<ActionEvent> handler) {
+    	eButton.setOnAction(handler);
     }
 }
+

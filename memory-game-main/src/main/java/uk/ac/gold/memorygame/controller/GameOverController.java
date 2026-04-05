@@ -32,7 +32,7 @@ public class GameOverController {
 
     /*UI handlers*/
     private void onRestartButtonClick(){
-        app.showGameScreen();
+        app.showStartScreen();
     }
     private void setRestartButtonHandler(){
         gameOverView.setRestartClickHandler(_ ->onRestartButtonClick());

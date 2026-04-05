@@ -1,11 +1,14 @@
 package uk.ac.gold.memorygame.controller;
 
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javafx.scene.Parent;
 import uk.ac.gold.memorygame.MemoryGameApp;
 import uk.ac.gold.memorygame.view.GameStartView;
+import uk.ac.gold.memorygame.config.TextCardDeck;
+import uk.ac.gold.memorygame.config.CardDeck;
 
 public class GameStartController {
 
@@ -14,6 +17,8 @@ public class GameStartController {
     private final MemoryGameApp app;
 
     private GameStartView gameStartView;
+    
+    
 
     public GameStartController(MemoryGameApp app) {
         this.app = app;
@@ -39,16 +44,17 @@ public class GameStartController {
 
     private void createView() {
         gameStartView = new GameStartView();
-        setStartButtonHandler();
+        setDeckHandlers();
     }
 
-    private void setStartButtonHandler() {
-        LOGGER.debug("Passing start button handler to start screen view");
-        gameStartView.setStartClickHandler(_ -> onStartButtonClick());
+    // used selection of gamemode
+    private void setDeckHandlers() {
+
+        gameStartView.setLettersHandler(_-> {CardDeck<?>deck = new TextCardDeck("letters",List.of("A","B","C","D","E","F","G","H"));app.showGameScreen(deck);});
+
+        gameStartView.setNumbersHandler(_-> {CardDeck<?> deck = new TextCardDeck("Numbers",List.of("1","2","3","4","5","6","7","8"));app.showGameScreen(deck);});
+
+        gameStartView.setEmojiHandler(_-> {CardDeck<?>deck = new TextCardDeck("emoji",List.of("😀","🐶","🍎","🚗","⚽","🎵","🔥","🌟"));app.showGameScreen(deck);});
     }
 
-    private void onStartButtonClick() {
-        LOGGER.debug("Start button click");
-        app.showGameScreen();
-    }
 }
