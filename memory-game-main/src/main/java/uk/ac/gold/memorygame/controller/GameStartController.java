@@ -23,6 +23,9 @@ public class GameStartController {
     public GameStartController(MemoryGameApp app) {
         this.app = app;
         createView();
+        int savedhighScore = app.getPrefs().getInt("high score", 0);
+        gameStartView.setHighScore(savedhighScore);
+
     }
 
     /*

@@ -21,6 +21,7 @@ public class GameStartView {
     private final Button eButton;
     private final Button lButton;
     private final Button nButton;
+    private final Text ShowHighScore;
     
     private final Text title;
 
@@ -33,8 +34,9 @@ public class GameStartView {
         lButton = new Button("letters");
         nButton = new Button("Numbers");
         eButton =new Button("emoji");
+        ShowHighScore = new Text("");
 
-        root.getChildren().addAll(title,lButton,nButton,eButton);
+        root.getChildren().addAll(title,lButton,nButton,eButton, ShowHighScore);
     }
 
     public Parent getRoot() {
@@ -51,6 +53,10 @@ public class GameStartView {
 
     public void setEmojiHandler(EventHandler<ActionEvent> handler) {
     	eButton.setOnAction(handler);
+    }
+    
+    public void setHighScore(int score) {
+    	ShowHighScore.setText("High Score: " + score);
     }
 }
 

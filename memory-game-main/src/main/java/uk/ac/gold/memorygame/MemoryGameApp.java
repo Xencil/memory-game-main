@@ -76,7 +76,17 @@ public class MemoryGameApp extends Application {
     }
 
     public void showGameOverScreen(int score){
-        GameOverController controller =new GameOverController(this, score);
+    	
+        // gets the old high score
+        int savedhighScore = prefs.getInt("high score", 0);
+
+        // changes the high score if player gets higher
+        if(score >savedhighScore){
+            prefs.putInt("high score",score);
+            savedhighScore =score;
+        }
+    	
+        GameOverController controller =new GameOverController(this, score,savedhighScore);
 
         primaryStage.setScene(new Scene(controller.getView(),640, 480));
     }

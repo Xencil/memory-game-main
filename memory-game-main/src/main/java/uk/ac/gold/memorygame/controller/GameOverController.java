@@ -12,9 +12,9 @@ public class GameOverController {
     private final MemoryGameApp app;
     private GameOverView gameOverView;
 
-    public GameOverController(MemoryGameApp app,int score){
+    public GameOverController(MemoryGameApp app,int score,int highScore){
         this.app =app;
-        createView(score);
+        createView(score,highScore);
     }
 
     /*Access*/
@@ -24,8 +24,8 @@ public class GameOverController {
     }
     /*Initialise view*/
 
-    private void createView(int score) {
-        gameOverView =new GameOverView(score);
+    private void createView(int score, int highScore) {
+        gameOverView =new GameOverView(score,highScore);
         setRestartButtonHandler();
         setQuitButtonHandler();
     }
