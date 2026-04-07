@@ -68,7 +68,7 @@ public class MemoryGameApp extends Application {
 
     public void showGameScreen(CardDeck<?> cardDeck) {
         // grid size
-        int numOfPairs =8;
+        int numOfPairs =cardDeck.numberOfItems();
         // game controller creation
         GamePlayController controller=new GamePlayController(this,cardDeck,numOfPairs);
 

@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import uk.ac.gold.memorygame.config.PictureCardDeck;
 import javafx.scene.Parent;
 import uk.ac.gold.memorygame.MemoryGameApp;
 import uk.ac.gold.memorygame.view.GameStartView;
@@ -58,6 +59,8 @@ public class GameStartController {
         gameStartView.setNumbersHandler(_-> {CardDeck<?> deck = new TextCardDeck("Numbers",List.of("1","2","3","4","5","6","7","8"));app.showGameScreen(deck);});
 
         gameStartView.setEmojiHandler(_-> {CardDeck<?>deck = new TextCardDeck("emoji",List.of("😀","🐶","🍎","🚗","⚽","🎵","🔥","🌟"));app.showGameScreen(deck);});
+        
+        gameStartView.setPictureHandler(_-> {CardDeck<?>deck = new PictureCardDeck("picture",List.of("alpine-forget-me-not.png","anthurium.png","bluebell.png","cactus.png","dahlia.png","lavender.png","lily.png","nasturtium.png"));app.showGameScreen(deck);});
     }
 
 }

@@ -22,6 +22,7 @@ public class GameStartView {
     private final Button lButton;
     private final Button nButton;
     private final Text ShowHighScore;
+    private final Button pButton;
     
     private final Text title;
 
@@ -35,8 +36,9 @@ public class GameStartView {
         nButton = new Button("Numbers");
         eButton =new Button("emoji");
         ShowHighScore = new Text("");
+        pButton = new Button("pictures");
 
-        root.getChildren().addAll(title,lButton,nButton,eButton, ShowHighScore);
+        root.getChildren().addAll(title,lButton,nButton,eButton,pButton, ShowHighScore);
     }
 
     public Parent getRoot() {
@@ -57,6 +59,9 @@ public class GameStartView {
     
     public void setHighScore(int score) {
     	ShowHighScore.setText("High Score: " + score);
+    }
+    public void setPictureHandler(EventHandler<ActionEvent>handler) {
+    	pButton.setOnAction(handler);
     }
 }
 
