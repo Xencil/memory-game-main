@@ -3,6 +3,7 @@ package uk.ac.gold.memorygame.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javafx.scene.Parent;
+import javafx.scene.media.AudioClip;
 import uk.ac.gold.memorygame.MemoryGameApp;
 import uk.ac.gold.memorygame.model.Board;
 import uk.ac.gold.memorygame.model.Card;
@@ -17,6 +18,8 @@ public class GamePlayController implements GameModelObserver {
     private final MemoryGameApp app;
     private GameModel gameModel;
     private GamePlayView gamePlayView;
+    private AudioClip incorrect;
+    private AudioClip correct;
     public GamePlayController(MemoryGameApp app, CardDeck<?> cardSet, int numberOfPairs){
 
         this.app = app;
@@ -25,6 +28,10 @@ public class GamePlayController implements GameModelObserver {
         createView(cardSet);
         setCardsClickHandler();
         gameModel.addObserver(this);
+        //gets the audio files 
+        correct = new AudioClip(getClass().getResource("/audio/correct.mp3").toExternalForm());
+    	incorrect = new AudioClip(getClass().getResource("/audio/cat-meows/bbc_cats-and-k_07045175.mp3").toExternalForm());
+
     }
 
     /*Access*/
@@ -70,11 +77,13 @@ public class GamePlayController implements GameModelObserver {
     @Override
     public void onMatch(java.util.List<Card> cards){
         gamePlayView.matchCards(cards);
+        correct.play();// plays sound when correct
     }
 
     @Override
     public void onMismatch(java.util.List<Card> cards){
         gamePlayView.updateCards(cards);
+        incorrect.play(); // plays sound when incorrect
    
     }
 
