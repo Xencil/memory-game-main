@@ -11,12 +11,17 @@ public class GameOverController {
     private static final Logger LOGGER = LogManager.getLogger();
     private final MemoryGameApp app;
     private GameOverView gameOverView;
+    private final String winner;
+    private final int Score1;
+    private final int Score2;
 
-    public GameOverController(MemoryGameApp app,int score,int highScore){
-        this.app =app;
-        createView(score,highScore);
+    public GameOverController(MemoryGameApp app, String winner, int Score1, int Score2) {
+        this.app = app;
+        this.winner = winner;
+        this.Score1 = Score1;
+        this.Score2 = Score2;
+        createView();
     }
-
     /*Access*/
 
     public Parent getView(){
@@ -24,8 +29,14 @@ public class GameOverController {
     }
     /*Initialise view*/
 
-    private void createView(int score, int highScore) {
-        gameOverView =new GameOverView(score,highScore);
+    private void createView() {
+
+        int totalScore = Score1 + Score2; 
+        
+        int highScore = app.getPrefs().getInt("high score", 0);
+
+        gameOverView = new GameOverView(winner, totalScore, highScore);
+
         setRestartButtonHandler();
         setQuitButtonHandler();
     }

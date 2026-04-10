@@ -17,6 +17,8 @@ import uk.ac.gold.memorygame.model.Card;
 import uk.ac.gold.memorygame.model.GameModel;
 import uk.ac.gold.memorygame.view.components.BoardView;
 import uk.ac.gold.memorygame.view.components.ScoreView;
+import javafx.scene.text.Text;
+import uk.ac.gold.memorygame.model.User;
 
 public class GamePlayView {
 
@@ -31,18 +33,25 @@ public class GamePlayView {
     // GameView UI components.
     private final BoardView boardView;
     private final ScoreView scoreView;
-
+    private final Text playerTurnText;
+    private final Text scoreText;
+    
+    // used for distinction in game mode
+    private final boolean tPlayerMode;
+    
     // Timer to handle UI update of mismatched cards.
     private PauseTransition mismatchPause = new PauseTransition(Duration.seconds(2));;
 
-    public GamePlayView(GameModel model, CardDeck cardDeck) {
+    public GamePlayView(GameModel model, CardDeck cardDeck, boolean tPlayerMode) {
         this.model = model;
-
+        this.tPlayerMode = tPlayerMode;
         root = new VBox();
         root.setSpacing(10);
 
         scoreView = new ScoreView();
         boardView = new BoardView();
+        playerTurnText = new Text();
+        scoreText = new Text();
 
         // Pass only the list of card model instances to the board, it doesn't
         // need access to the entire game model.
@@ -50,9 +59,18 @@ public class GamePlayView {
 
         // Allow board to fill all vertical space.
         VBox.setVgrow(boardView.getRoot(), Priority.ALWAYS);
+        
+        //changes the Ui based on gamemode chosen
+        if(tPlayerMode){
+            playerTurnText.setText("player 1 turn");
+            scoreText.setText("p1: 0 - p2: 0");
 
-        root.getChildren().add(scoreView);
-        root.getChildren().add(boardView.getRoot());
+            root.getChildren().addAll(playerTurnText,scoreText,scoreView,boardView.getRoot());
+        } else{
+            scoreText.setText("score: 0");
+            root.getChildren().addAll(scoreText,scoreView, boardView.getRoot());
+        }
+
     }
 
     public Parent getRoot() {
@@ -102,5 +120,14 @@ public class GamePlayView {
     public void update() {
         LOGGER.debug("Updating game view components");
         scoreView.update(model.getScore());
+    }
+    
+    public void updatePlayers(User p1, User p2, User InTurn) {
+        if(!tPlayerMode){
+            scoreText.setText("score: " +p1.getScore());
+            return;
+        }
+        playerTurnText.setText(InTurn.getName() + " turn");
+        scoreText.setText("p1: " + p1.getScore() + " - p2: "+p2.getScore());
     }
 }

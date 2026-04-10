@@ -26,9 +26,18 @@ public class CheckingMatchState extends AbstractGameState {
         LOGGER.debug("Check match between {} and {}", first, second);
 
         if (first.matches(second)) {
-            handleMatch();
+        	first.setMatched(true);
+        	second.setMatched(true);
+            model.updateScore(true);
+            model.notifyMatch(List.of(first, second));
+
         } else {
-            handleMismatch();
+        	first.flipDown();
+        	second.flipDown();
+            model.updateScore(false);
+            model.notifyMismatch(List.of(first,second));
+           //switches to other players turn
+            model.switchPlayer();
         }
 
         if (model.isGameOver()) {

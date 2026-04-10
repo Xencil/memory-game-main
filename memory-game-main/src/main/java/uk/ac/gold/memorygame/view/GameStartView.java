@@ -23,7 +23,9 @@ public class GameStartView {
     private final Button nButton;
     private final Text ShowHighScore;
     private final Button pButton;
-    
+    private final Button sPlayer;
+    private final Button tPlayer;
+
     private final Text title;
 
     public GameStartView() {
@@ -37,8 +39,10 @@ public class GameStartView {
         eButton =new Button("emoji");
         ShowHighScore = new Text("");
         pButton = new Button("pictures");
-
-        root.getChildren().addAll(title,lButton,nButton,eButton,pButton, ShowHighScore);
+        sPlayer = new Button("single player");
+        tPlayer = new Button("two player");
+        
+        root.getChildren().addAll(title,sPlayer,tPlayer);
     }
 
     public Parent getRoot() {
@@ -62,6 +66,20 @@ public class GameStartView {
     }
     public void setPictureHandler(EventHandler<ActionEvent>handler) {
     	pButton.setOnAction(handler);
+    }
+    
+    public void setSinglePlayerHandler(EventHandler<ActionEvent>handler) {
+    	sPlayer.setOnAction(handler);
+    }
+    
+    public void setTwoPlayerHandler(EventHandler<ActionEvent>handler) {
+    	tPlayer.setOnAction(handler);
+    }
+    //this is the next screen after the gamemode has been selected
+    public void showDeckButtons() {
+        title.setText("select deck");
+        root.getChildren().clear();
+        root.getChildren().addAll(title,lButton,nButton,eButton, pButton,ShowHighScore);
     }
 }
 

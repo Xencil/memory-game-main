@@ -42,6 +42,7 @@ public class MemoryGameApp extends Application {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private Stage primaryStage;
+    private boolean twoPlayerMode;
 
     // Application/user-related state: single instance that persists for the
     // lifetime of the application. Could also be saved and reloaded at
@@ -70,25 +71,27 @@ public class MemoryGameApp extends Application {
         // grid size
         int numOfPairs =cardDeck.numberOfItems();
         // game controller creation
-        GamePlayController controller=new GamePlayController(this,cardDeck,numOfPairs);
+        GamePlayController controller=new GamePlayController(this,cardDeck,numOfPairs, twoPlayerMode);
 
         primaryStage.setScene(new Scene(controller.getView(),640, 480));
     }
 
-    public void showGameOverScreen(int score){
-    	
-        // gets the old high score
+    public void showGameOverScreen(String winner, int p1Score, int p2Score) {
+
         int savedhighScore = prefs.getInt("high score", 0);
 
-        // changes the high score if player gets higher
-        if(score >savedhighScore){
-            prefs.putInt("high score",score);
-            savedhighScore =score;
-        }
-    	
-        GameOverController controller =new GameOverController(this, score,savedhighScore);
+        // Use the higher of both players for high score
+        int bestScore = Math.max(p1Score, p2Score);
 
-        primaryStage.setScene(new Scene(controller.getView(),640, 480));
+        if (bestScore > savedhighScore) {
+            prefs.putInt("high score", bestScore);
+            savedhighScore = bestScore;
+        }
+
+        GameOverController controller =
+            new GameOverController(this, winner, p1Score, p2Score);
+
+        primaryStage.setScene(new Scene(controller.getView(), 640, 480));
     }
     public Preferences getPrefs() {
         return prefs;
@@ -96,5 +99,13 @@ public class MemoryGameApp extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+    
+    public void setTwoPlayerMode(boolean mode) {
+        this.twoPlayerMode = mode;
+    }
+
+    public boolean isTwoPlayerMode() {
+        return twoPlayerMode;
     }
 }

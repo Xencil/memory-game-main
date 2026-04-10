@@ -9,6 +9,7 @@ import uk.ac.gold.memorygame.model.Board;
 import uk.ac.gold.memorygame.model.Card;
 import uk.ac.gold.memorygame.model.GameModel;
 import uk.ac.gold.memorygame.model.MoveBasedScoring;
+import uk.ac.gold.memorygame.model.User;
 import uk.ac.gold.memorygame.view.GamePlayView;
 import uk.ac.gold.memorygame.config.CardDeck;
 import uk.ac.gold.memorygame.observer.GameModelObserver;
@@ -20,9 +21,11 @@ public class GamePlayController implements GameModelObserver {
     private GamePlayView gamePlayView;
     private AudioClip incorrect;
     private AudioClip correct;
-    public GamePlayController(MemoryGameApp app, CardDeck<?> cardSet, int numberOfPairs){
+    private final boolean tPlayerMode;
+    public GamePlayController(MemoryGameApp app, CardDeck<?> cardSet, int numberOfPairs,boolean tPlayerMode){
 
         this.app = app;
+        this.tPlayerMode =tPlayerMode;
 
         initialiseModel(numberOfPairs);
         createView(cardSet);
@@ -48,11 +51,11 @@ public class GamePlayController implements GameModelObserver {
         
         //create the scoring system
         MoveBasedScoring scoring =new MoveBasedScoring(2,1);
-        gameModel = new GameModel(b,scoring);
+        gameModel = new GameModel(b,scoring,tPlayerMode);
     }
 
     private void createView(CardDeck<?>cardSet) {
-        gamePlayView = new GamePlayView(gameModel, cardSet);
+        gamePlayView = new GamePlayView(gameModel, cardSet,tPlayerMode);
     }
 
     /*UI handlers*/
@@ -62,11 +65,13 @@ public class GamePlayController implements GameModelObserver {
     }
 
     private void onCardClick(Card card) {
-        if(!gameModel.isGameOver()) {
-            gameModel.selectCard(card);
-        }
+    	//used to ignore clicks during invalid states
+        try {
+            if(!gameModel.isGameOver()){
+                gameModel.selectCard(card);
+            }
+        }catch(IllegalStateException e){}
     }
-
     /*GameModelObserver method*/
 
     @Override
@@ -84,20 +89,31 @@ public class GamePlayController implements GameModelObserver {
     public void onMismatch(java.util.List<Card> cards){
         gamePlayView.updateCards(cards);
         incorrect.play(); // plays sound when incorrect
+        //quickly flips cards back
+        for (Card c : cards) {
+            c.flipDown();
+            gamePlayView.updateCard(c);
+        }
    
     }
-
+    
     @Override
     public void onStateChange() {
-
         gamePlayView.update();
-
+        if(tPlayerMode) {
+        	gamePlayView.updatePlayers(gameModel.getPlayer1(),gameModel.getPlayer2(),gameModel.getPlayerInTurn());
+        }
     }
 
     @Override
-    public void onGameOver(){
-
+    public void onGameOver() {
         gameModel.removeObserver(this);
-        app.showGameOverScreen(gameModel.getScore());
+        User wUser = gameModel.getWinner();
+        String winner =(wUser!= null)? wUser.getName():"Draw";
+        int Score1 = gameModel.getPlayer1().getScore();
+        
+        int Score2 =tPlayerMode && gameModel.getPlayer2() != null? gameModel.getPlayer2().getScore(): 0;
+        app.showGameOverScreen(winner, Score1, Score2);
     }
+ 
 }

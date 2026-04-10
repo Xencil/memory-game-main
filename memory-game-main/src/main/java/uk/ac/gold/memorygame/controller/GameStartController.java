@@ -17,7 +17,11 @@ public class GameStartController {
 
     private final MemoryGameApp app;
 
+    
     private GameStartView gameStartView;
+    
+    private boolean choosingGameMode = true;
+    
     
     
 
@@ -48,7 +52,15 @@ public class GameStartController {
 
     private void createView() {
         gameStartView = new GameStartView();
-        setDeckHandlers();
+        setGameModeHandlers();
+    }
+    
+
+    private void setGameModeHandlers() {
+
+        gameStartView.setSinglePlayerHandler(_-> {app.setTwoPlayerMode(false);gameStartView.showDeckButtons();setDeckHandlers();});
+
+        gameStartView.setTwoPlayerHandler(_-> {app.setTwoPlayerMode(true); gameStartView.showDeckButtons();setDeckHandlers();});
     }
 
     // used selection of gamemode
