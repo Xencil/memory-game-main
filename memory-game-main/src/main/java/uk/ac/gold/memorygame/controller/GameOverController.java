@@ -2,6 +2,7 @@ package uk.ac.gold.memorygame.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import uk.ac.gold.memorygame.MemoryGameApp;
@@ -17,9 +18,9 @@ public class GameOverController {
 
     public GameOverController(MemoryGameApp app, String winner, int Score1, int Score2) {
         this.app = app;
-        this.winner = winner;
         this.Score1 = Score1;
         this.Score2 = Score2;
+        this.winner = winner;
         createView();
     }
     /*Access*/
@@ -30,12 +31,14 @@ public class GameOverController {
     /*Initialise view*/
 
     private void createView() {
-
-        int totalScore = Score1 + Score2; 
-        
+  
         int highScore = app.getPrefs().getInt("high score", 0);
-
-        gameOverView = new GameOverView(winner, totalScore, highScore);
+        //sends the score data differently depending on gamemode selected
+        if (app.isTwoPlayerMode()) {
+            gameOverView = new GameOverView(winner, Score1, Score2, highScore);
+        } else {
+            gameOverView = new GameOverView(winner, Score1, highScore);
+        }
 
         setRestartButtonHandler();
         setQuitButtonHandler();

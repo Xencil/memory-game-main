@@ -29,7 +29,9 @@ public class CheckingMatchState extends AbstractGameState {
         	first.setMatched(true);
         	second.setMatched(true);
             model.updateScore(true);
+            //same player gets another turn
             model.notifyMatch(List.of(first, second));
+            
 
         } else {
         	first.flipDown();

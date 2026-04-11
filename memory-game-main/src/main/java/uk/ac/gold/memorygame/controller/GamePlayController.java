@@ -50,7 +50,7 @@ public class GamePlayController implements GameModelObserver {
         Board b =new Board(numberOfPairs);
         
         //create the scoring system
-        MoveBasedScoring scoring =new MoveBasedScoring(2,1);
+        MoveBasedScoring scoring =new MoveBasedScoring(1,0);
         gameModel = new GameModel(b,scoring,tPlayerMode);
     }
 
