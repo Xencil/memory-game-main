@@ -11,8 +11,11 @@ public class WaitingForSecondCardState extends AbstractGameState {
 
     @Override
     public void selectCard(Card secondCard) {
-        if (secondCard.isFaceUp() || secondCard.isMatched()) {
-            // Ignore invalid selection.
+        if (secondCard==firstCard){
+            return;
+        }
+        if (secondCard.isMatched() || secondCard.isFaceUp()) {
+        	//Ignore invalid selection
             LOGGER.info("Already matched or selected: {}", secondCard);
             return;
         }

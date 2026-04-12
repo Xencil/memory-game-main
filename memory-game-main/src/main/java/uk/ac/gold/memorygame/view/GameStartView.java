@@ -25,6 +25,7 @@ public class GameStartView {
     private final Button pButton;
     private final Button sPlayer;
     private final Button tPlayer;
+    private final Button AIButton;
 
     private final Text title;
 
@@ -41,8 +42,9 @@ public class GameStartView {
         pButton = new Button("pictures");
         sPlayer = new Button("single player");
         tPlayer = new Button("two player");
-        
-        root.getChildren().addAll(title,sPlayer,tPlayer);
+        AIButton = new Button("play against an AI");
+
+        root.getChildren().addAll(title,sPlayer,tPlayer, AIButton);
     }
 
     public Parent getRoot() {
@@ -74,6 +76,10 @@ public class GameStartView {
     
     public void setTwoPlayerHandler(EventHandler<ActionEvent>handler) {
     	tPlayer.setOnAction(handler);
+    }
+    
+    public void setAIHandler(EventHandler<ActionEvent> handler) {
+        AIButton.setOnAction(handler);
     }
     //this is the next screen after the gamemode has been selected
     public void showDeckButtons() {

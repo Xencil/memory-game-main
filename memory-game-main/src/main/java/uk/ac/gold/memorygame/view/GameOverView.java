@@ -58,7 +58,7 @@ public class GameOverView {
         Text EndScore =new Text("final score: " + score);
         if(score >= highScore){
             ShowHighScore = new Text("new pr: " + score);
-        } else {
+        } else{
             ShowHighScore =new Text("High score: " + highScore);
         }
         restartButton = new Button("restart");

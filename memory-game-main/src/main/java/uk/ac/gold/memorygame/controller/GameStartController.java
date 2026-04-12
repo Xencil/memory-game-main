@@ -58,14 +58,29 @@ public class GameStartController {
 
     private void setGameModeHandlers() {
 
-        gameStartView.setSinglePlayerHandler(_-> {app.setTwoPlayerMode(false);gameStartView.showDeckButtons();setDeckHandlers();});
+    	gameStartView.setAIHandler(_ -> {
+    	    app.setTwoPlayerMode(true);
+    	    app.setAIgameMode(true);
+    	    setDeckHandlers();
+    	});
+    	
+        gameStartView.setSinglePlayerHandler(_ -> {
+            app.setTwoPlayerMode(false);
+            app.setAIgameMode(false);
+            setDeckHandlers();
+        });
 
-        gameStartView.setTwoPlayerHandler(_-> {app.setTwoPlayerMode(true); gameStartView.showDeckButtons();setDeckHandlers();});
+        gameStartView.setTwoPlayerHandler(_ -> {
+            app.setTwoPlayerMode(true);
+            app.setAIgameMode(false);
+            setDeckHandlers();
+        });
     }
 
     // used selection of gamemode
     private void setDeckHandlers() {
-
+    	gameStartView.showDeckButtons();
+    	
         gameStartView.setLettersHandler(_-> {CardDeck<?>deck = new TextCardDeck("letters",List.of("A","B","C","D","E","F","G","H"));app.showGameScreen(deck);});
 
         gameStartView.setNumbersHandler(_-> {CardDeck<?> deck = new TextCardDeck("Numbers",List.of("1","2","3","4","5","6","7","8"));app.showGameScreen(deck);});

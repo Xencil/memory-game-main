@@ -22,6 +22,7 @@ public class GameModel implements ObservableGameModel {
     private User p2;
     private User PlayerInTurn;
     private boolean tPlayerMode;
+    private boolean locked = false;
 
     private final List<GameModelObserver> observers = new CopyOnWriteArrayList<>();
 
@@ -118,6 +119,7 @@ public class GameModel implements ObservableGameModel {
     public boolean istwoPlayerMode() {
         return tPlayerMode;
     }
+    
     /*
      * -----------------------------
      * Controller input
@@ -135,20 +137,29 @@ public class GameModel implements ObservableGameModel {
      * -----------------------------
      */
 
-    void setState(GameState state) {
+    public void setState(GameState state) {
         LOGGER.debug("State {}", state);
         currentState = state;
         notifyStateChange();
         currentState.onEnter();
     }
 
-    GameState getState() {
+    public GameState getState() {
         return currentState;
     }
 
     void incrementMoves() {
         moves++;
     }
+    
+
+	public boolean islocked() {
+	    return locked;
+	}
+	
+	public void setlocked(boolean locked) {
+	    this.locked = locked;
+	}
 
     /*
      * -----------------------------

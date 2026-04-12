@@ -43,6 +43,7 @@ public class MemoryGameApp extends Application {
 
     private Stage primaryStage;
     private boolean tPlayerMode;
+    private boolean AIgameMode;
 
     // Application/user-related state: single instance that persists for the
     // lifetime of the application. Could also be saved and reloaded at
@@ -71,7 +72,7 @@ public class MemoryGameApp extends Application {
         // grid size
         int numOfPairs =cardDeck.numberOfItems();
         // game controller creation
-        GamePlayController controller=new GamePlayController(this,cardDeck,numOfPairs, tPlayerMode);
+        GamePlayController controller=new GamePlayController(this,cardDeck,numOfPairs, tPlayerMode, AIgameMode);
 
         primaryStage.setScene(new Scene(controller.getView(),640, 480));
     }
@@ -109,5 +110,14 @@ public class MemoryGameApp extends Application {
 
     public boolean isTwoPlayerMode(){
         return tPlayerMode;
+    }
+    
+    // checks for ai gamemode
+    public void setAIgameMode(boolean mode){
+        this.AIgameMode =mode;
+    }
+
+    public boolean isAIgameMode() {
+        return AIgameMode;
     }
 }
