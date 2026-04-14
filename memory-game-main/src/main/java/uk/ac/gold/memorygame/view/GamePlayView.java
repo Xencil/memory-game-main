@@ -62,11 +62,13 @@ public class GamePlayView {
         
         //changes the Ui based on gamemode chosen
         if(tPlayerMode){
+        	//2 player ui
             playerTurnText.setText("player 1 turn");
             scoreText.setText("p1: 0 - p2: 0");
 
             root.getChildren().addAll(playerTurnText,scoreText,scoreView,boardView.getRoot());
         } else{
+        	//single player
             scoreText.setText("score: 0");
             root.getChildren().addAll(scoreText,scoreView, boardView.getRoot());
         }
@@ -122,11 +124,14 @@ public class GamePlayView {
         scoreView.update(model.getScore());
     }
     
+    //updates the players data for score and for turns
     public void updatePlayers(User p1, User p2, User InTurn) {
+    	// singleplayer
         if(!tPlayerMode){
             scoreText.setText("score: " +p1.getScore());
             return;
         }
+        // 2 player
         playerTurnText.setText(InTurn.getName() + " turn");
         scoreText.setText("p1: " + p1.getScore() + " - p2: "+p2.getScore());
     }

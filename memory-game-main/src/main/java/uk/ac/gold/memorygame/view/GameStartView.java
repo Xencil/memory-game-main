@@ -51,6 +51,8 @@ public class GameStartView {
         return root;
     }
     
+    
+    
     public void setLettersHandler(EventHandler<ActionEvent>handler) {
     	lButton.setOnAction(handler);
     }

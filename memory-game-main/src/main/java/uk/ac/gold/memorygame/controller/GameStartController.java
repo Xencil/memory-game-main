@@ -55,21 +55,21 @@ public class GameStartController {
         setGameModeHandlers();
     }
     
-
+    // sets the handlers for selecting gamemodes
     private void setGameModeHandlers() {
-
+    	//ai
     	gameStartView.setAIHandler(_ -> {
     	    app.setTwoPlayerMode(true);
     	    app.setAIgameMode(true);
     	    setDeckHandlers();
     	});
-    	
+    	//single player
         gameStartView.setSinglePlayerHandler(_ -> {
             app.setTwoPlayerMode(false);
             app.setAIgameMode(false);
             setDeckHandlers();
         });
-
+        //2 player
         gameStartView.setTwoPlayerHandler(_ -> {
             app.setTwoPlayerMode(true);
             app.setAIgameMode(false);

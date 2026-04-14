@@ -84,6 +84,7 @@ public class MemoryGameApp extends Application {
         // gets the best score from the players
         int highestScore = Math.max(Score1, Score2);
 
+        //updates the high score if new score is higher
         if(highestScore> savedhighScore){
             prefs.putInt("high score", highestScore);
             savedhighScore = highestScore;
@@ -102,21 +103,20 @@ public class MemoryGameApp extends Application {
     }
     
     
-    // checks for two player gamemode 
-    
+    // serves as the switch for twoplayer mode 
     public void setTwoPlayerMode(boolean mode){
         this.tPlayerMode =mode;
     }
-
+    // checks for ai gamemode
     public boolean isTwoPlayerMode(){
         return tPlayerMode;
     }
     
-    // checks for ai gamemode
+    //serves as the switch for verus ai gamemode 
     public void setAIgameMode(boolean mode){
         this.AIgameMode =mode;
     }
-
+    // checks for ai gamemode
     public boolean isAIgameMode() {
         return AIgameMode;
     }

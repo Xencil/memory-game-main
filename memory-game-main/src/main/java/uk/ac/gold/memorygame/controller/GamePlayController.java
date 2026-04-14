@@ -75,24 +75,26 @@ public class GamePlayController implements GameModelObserver {
 
     private void onCardClick(Card card) {
         try {
+        	//prevents the player from interacting with the game if locked
             if(gameModel.islocked()){
             	return;
             }; 
+            //stops the user from being able to input during the ai's turn
             if(AIgameMode &&gameModel.getPlayerInTurn()==gameModel.getPlayer2()){
                 return;
             }
-
+            //stops the user from making a move if the game is over
             if(!gameModel.isGameOver()){
                 gameModel.selectCard(card);
             }
 
         } catch (IllegalStateException e){}
     }
-    
+    // handling of ai functionality 
     private void playAITurn() {
         new Thread(() ->{
             try {
-                Thread.sleep(450); 
+                Thread.sleep(450); // adds a short delay not to seem too unhuman like
                 Card firstC = null;
                 Card secondC = null;
                 // tries to use memory for card pairings
@@ -120,11 +122,11 @@ public class GamePlayController implements GameModelObserver {
                     }
                     java.util.Collections.shuffle(deck);
 
-                    if (deck.size() >= 2) {
+                    if(deck.size() >= 2){
                         firstC = deck.get(0);
 
-                        for (Card c : deck) {
-                            if (c != firstC) {
+                        for(Card c : deck){
+                            if(c != firstC) {
                                 secondC = c;
                                 break;
                             }
@@ -180,12 +182,13 @@ public class GamePlayController implements GameModelObserver {
         incorrect.play();
         new Thread(() ->{
             try{
-                Thread.sleep(900);
+                Thread.sleep(900);// delays the cards flipping back so the user has time to see 
                 javafx.application.Platform.runLater(() ->{
                     for(Card c:cards){
                         c.flipDown();
                         gamePlayView.updateCard(c);
                     }
+                    
                     gameModel.setlocked(false);
                     if(gameModel.isGameOver()){
                         gameModel.setState(new GameOverState(gameModel));
@@ -201,9 +204,11 @@ public class GamePlayController implements GameModelObserver {
     @Override
     public void onStateChange() {
         gamePlayView.update();
+        // sends an update to the players info if two player mode selected
         if(tPlayerMode) {
         	gamePlayView.updatePlayers(gameModel.getPlayer1(),gameModel.getPlayer2(),gameModel.getPlayerInTurn());
         }
+        // calls the ai's turn
         if(AIgameMode &&tPlayerMode &&gameModel.getPlayerInTurn() == gameModel.getPlayer2() &&gameModel.getState() instanceof WaitingForFirstCardState &&!AIinTurn){
         	    AIinTurn =true;
         	    playAITurn();
@@ -214,11 +219,13 @@ public class GamePlayController implements GameModelObserver {
     @Override
     public void onGameOver() {
         gameModel.removeObserver(this);
+        //finds the winner
         User wUser = gameModel.getWinner();
         String winner =(wUser!= null)? wUser.getName():"Draw";
         int Score1 = gameModel.getPlayer1().getScore();
         
         int Score2 =tPlayerMode && gameModel.getPlayer2() != null? gameModel.getPlayer2().getScore(): 0;
+        //switches to game over display
         app.showGameOverScreen(winner, Score1, Score2);
     }
  
