@@ -1,5 +1,5 @@
 package uk.ac.gold.memorygame.model;
-
+// used to store the players name and score 
 public class User {
     private final String name;
     private int score =0;

@@ -25,12 +25,16 @@ public class GameModel implements ObservableGameModel {
     private boolean locked = false;
 
     private final List<GameModelObserver> observers = new CopyOnWriteArrayList<>();
-
+    // constructor for other gamemodes 
     public GameModel(Board board, ScoringStrategy scoring, boolean tPlayerMode) {
     	this.tPlayerMode = tPlayerMode;
         initialise(board, scoring);
     }
 
+    // constructor for singleplayer 
+    public GameModel(Board board,ScoringStrategy scoring){
+        this(board,scoring, false);
+    }
     private void initialise(Board board, ScoringStrategy scoring) {
         this.board = board;
         this.scoring = scoring;
@@ -49,6 +53,7 @@ public class GameModel implements ObservableGameModel {
             c.flipDown();
             c.setMatched(false);
         }
+        // make player one start first
         PlayerInTurn = p1; 
 
         setState(new WaitingForFirstCardState(this));
@@ -60,10 +65,6 @@ public class GameModel implements ObservableGameModel {
      * -----------------------------
      */
 
-    
-    public GameModel(Board board,ScoringStrategy scoring){
-        this(board,scoring, false);
-    }
     
     public Board getBoard() {
         return board;
@@ -82,6 +83,7 @@ public class GameModel implements ObservableGameModel {
     }
     //decides on which player won the game based on their score
     public User getWinner() {
+    	// makes player 1 always win in singleplayer
         if(!tPlayerMode){
             return p1;
         }
@@ -171,7 +173,9 @@ public class GameModel implements ObservableGameModel {
         int old = scoring.getScore();
         scoring.updateScore(isMatch);
         LOGGER.info("Score: {}", getScore());
+        // gets the score difference
         int x = scoring.getScore() -old;
+        // adds the points to the player if score increases
         if(x > 0){
             PlayerInTurn.addScore(x);
         }
